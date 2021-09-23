@@ -1,0 +1,728 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Open API",
+    "description": "Open API for VSPark Backend Service",
+    "version": "0.0.1",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "vsparknft",
+      "description": "VSPARK NFT相关服务"
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "local"
+    },
+    {
+      "url": "https://api-dev.vsparkverse.com",
+      "description": "development"
+    },
+    {
+      "url": "https://api.vsparkverse.com",
+      "description": "production"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "x-api-key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "API Key"
+      }
+    },
+    "schemas": {
+      "ERC721TextMetadataCls": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ]
+      },
+      "MultiLanguageTextMetadataCls": {
+        "type": "object",
+        "properties": {
+          "chinese": {
+            "$ref": "#/components/schemas/ERC721TextMetadataCls"
+          },
+          "english": {
+            "$ref": "#/components/schemas/ERC721TextMetadataCls"
+          }
+        }
+      },
+      "PutUserNFTDtoImpl": {
+        "type": "object",
+        "properties": {
+          "tokenId": {
+            "type": "number"
+          },
+          "nftId": {
+            "type": "number"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "quality": {
+            "enum": [
+              "SSR",
+              "SR",
+              "A",
+              "B",
+              "C"
+            ],
+            "type": "string"
+          },
+          "series": {
+            "type": "number"
+          },
+          "multiLanguageTextMetadata": {
+            "$ref": "#/components/schemas/MultiLanguageTextMetadataCls"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "tokenId",
+          "nftId",
+          "owner",
+          "quality",
+          "series",
+          "multiLanguageTextMetadata",
+          "createdAt",
+          "updatedAt",
+          "image",
+          "name",
+          "description"
+        ]
+      },
+      "QueryParamCls": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "object"
+          },
+          "like": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "UserNFTQueryParamsCls": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "$ref": "#/components/schemas/QueryParamCls"
+          }
+        }
+      },
+      "UserNFTPaginatorCls": {
+        "type": "object",
+        "properties": {
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "updatedAt"
+        ]
+      },
+      "UserNFTQueryDtoImpl": {
+        "type": "object",
+        "properties": {
+          "queryParams": {
+            "$ref": "#/components/schemas/UserNFTQueryParamsCls"
+          },
+          "paginator": {
+            "$ref": "#/components/schemas/UserNFTPaginatorCls"
+          },
+          "limit": {
+            "type": "number",
+            "default": 100
+          },
+          "offset": {
+            "type": "number",
+            "default": 0
+          }
+        },
+        "required": [
+          "queryParams",
+          "paginator"
+        ]
+      },
+      "UserNFTPaginatorResultDtoImpl": {
+        "type": "object",
+        "properties": {
+          "paginator": {
+            "$ref": "#/components/schemas/UserNFTPaginatorCls"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PutUserNFTDtoImpl"
+            }
+          },
+          "queryCount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "paginator",
+          "items",
+          "queryCount"
+        ]
+      },
+      "UserNFTQueryBySeriesDtoImpl": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "type": "string"
+          },
+          "series": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "owner",
+          "series"
+        ]
+      },
+      "UserNFTWithCountCls": {
+        "type": "object",
+        "properties": {
+          "tokenId": {
+            "type": "number"
+          },
+          "nftId": {
+            "type": "number"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "quality": {
+            "enum": [
+              "SSR",
+              "SR",
+              "A",
+              "B",
+              "C"
+            ],
+            "type": "string"
+          },
+          "multiLanguageTextMetadata": {
+            "$ref": "#/components/schemas/MultiLanguageTextMetadataCls"
+          },
+          "image": {
+            "type": "string"
+          },
+          "series": {
+            "type": "number"
+          },
+          "count": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "tokenId",
+          "nftId",
+          "owner",
+          "quality",
+          "multiLanguageTextMetadata",
+          "image",
+          "series",
+          "count",
+          "name",
+          "description",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "EnrichedERC721MetadataDtoImpl": {
+        "type": "object",
+        "properties": {
+          "animation_url": {
+            "type": "string"
+          },
+          "background_color": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "animation_url",
+          "image",
+          "name",
+          "description"
+        ]
+      },
+      "SeriesDto": {
+        "type": "object",
+        "properties": {
+          "seriesId": {
+            "type": "number"
+          },
+          "seriesName": {
+            "type": "number"
+          },
+          "nftIds": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "seriesPic": {
+            "type": "string"
+          },
+          "allRecycleBonus": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "seriesId",
+          "seriesName",
+          "nftIds",
+          "seriesPic",
+          "allRecycleBonus"
+        ]
+      },
+      "RecycleDto": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean"
+          },
+          "startRecycleNumber": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "enable",
+          "startRecycleNumber"
+        ]
+      },
+      "RecyclePriceDto": {
+        "type": "object",
+        "properties": {
+          "quality": {
+            "enum": [
+              "SSR",
+              "SR",
+              "A",
+              "B",
+              "C"
+            ],
+            "type": "string"
+          },
+          "recyclePrice": {
+            "type": "number"
+          },
+          "currencyType": {
+            "enum": [
+              "BUSD",
+              "ETH"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "quality",
+          "recyclePrice",
+          "currencyType"
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/usernft/put": {
+      "post": {
+        "operationId": "UserNFTController_putUserNFT",
+        "summary": "Add NFT info",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PutUserNFTDtoImpl"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PutUserNFTDtoImpl"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "usernft"
+        ]
+      }
+    },
+    "/usernft/query": {
+      "post": {
+        "operationId": "UserNFTController_queryUserNFTs",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserNFTQueryDtoImpl"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserNFTPaginatorResultDtoImpl"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "usernft"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/usernft/series/query": {
+      "post": {
+        "operationId": "UserNFTController_queryUserNFTsBySeries",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserNFTQueryBySeriesDtoImpl"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserNFTWithCountCls"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "usernft"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/usernft/tokenId/{tokenId}": {
+      "get": {
+        "operationId": "UserNFTController_getUserNFTByTokenId",
+        "parameters": [
+          {
+            "name": "tokenId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PutUserNFTDtoImpl"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "usernft"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/usernft/batchGetTokens": {
+      "post": {
+        "operationId": "UserNFTController_batchGetUserNFTByTokenIds",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PutUserNFTDtoImpl"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "usernft"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/usernft/metadata/{tokenId}": {
+      "get": {
+        "operationId": "UserNFTController_getUserNFTMetadataByTokenId",
+        "summary": "Get the token metadata for English websites",
+        "parameters": [
+          {
+            "name": "tokenId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnrichedERC721MetadataDtoImpl"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "usernft"
+        ]
+      }
+    },
+    "/series/seriesId/{seriesId}": {
+      "get": {
+        "operationId": "SeriesController_getItemBySeriesId",
+        "parameters": [
+          {
+            "name": "seriesId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeriesDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "series"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/series/query": {
+      "get": {
+        "operationId": "SeriesController_getSeries",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SeriesDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "series"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/recycle/query": {
+      "get": {
+        "operationId": "RecycleController_getRecyclePlan",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecycleDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "recycle"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/recycle/recyclePrice/query": {
+      "get": {
+        "operationId": "RecycleController_getRecyclePrice",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecyclePriceDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "recycle"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    }
+  }
+}
