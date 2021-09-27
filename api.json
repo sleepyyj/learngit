@@ -306,6 +306,56 @@
           "description"
         ]
       },
+      "NFTDto": {
+        "type": "object",
+        "properties": {
+          "nftId": {
+            "type": "number"
+          },
+          "name": {
+            "type": "number"
+          },
+          "quality": {
+            "enum": [
+              "SSR",
+              "SR",
+              "A",
+              "B",
+              "C"
+            ],
+            "type": "string"
+          },
+          "story": {
+            "type": "number"
+          },
+          "recyclePrice": {
+            "type": "number"
+          },
+          "currencyType": {
+            "enum": [
+              "BUSD",
+              "ETH"
+            ],
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "series": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "nftId",
+          "name",
+          "quality",
+          "story",
+          "recyclePrice",
+          "currencyType",
+          "image",
+          "series"
+        ]
+      },
       "SeriesDto": {
         "type": "object",
         "properties": {
@@ -602,6 +652,41 @@
         },
         "tags": [
           "usernft"
+        ]
+      }
+    },
+    "/nft/nftId/{nftId}": {
+      "get": {
+        "operationId": "NFTController_getNFTByNFTId",
+        "parameters": [
+          {
+            "name": "nftId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NFTDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "nft"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
