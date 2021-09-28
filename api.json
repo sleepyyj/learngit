@@ -209,6 +209,9 @@
           },
           "series": {
             "type": "number"
+          },
+          "nftId": {
+            "type": "number"
           }
         },
         "required": [
